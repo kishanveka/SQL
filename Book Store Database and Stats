@@ -1,0 +1,28 @@
+CREATE TABLE books (id INTEGER PRIMARY KEY, title TEXT, pages INTEGER, "published date" INTEGER, rating INTEGER, price INTEGER);
+
+INSERT INTO books VALUES
+(1, "Dictionary", 600, 1900, 5, 17),
+(2, "Apples", 10, 1970, 4, 18),
+(3, "Book Choy", 15, 2000, 2, 200),
+(4, "Cooking", 200, 2001, 5, 1000),
+(5, "Dinosaurs", 20, 1890, 5, 20),
+(6, "Everything Everywhere", 1000, 1900, 4, 40),
+(7, "Fun House", 300, 1988, 2, 13),
+(8, "Giant Peaches", 250, 2001, 4, 14),
+(9, "Horses", 99, 1950, 1, 500),
+(10, "Investigate", 87, 1920, 1, 19),
+(11, "Jokes", 32, 2015, 3, 38),
+(12, "Kiss Me", 400, 2008, 5, 60),
+(13, "Love In The Air", 234, 1999, 3, 32),
+(14, "Maps", 27, 1900, 5, 1),
+(15, "Notaries", 5, 2022, 2, 5)
+;
+
+SELECT title, rating, price 
+FROM books 
+ORDER BY price DESC;
+
+SELECT title, rating, price 
+FROM books
+WHERE "published date" > 1990
+ORDER BY price ASC;
