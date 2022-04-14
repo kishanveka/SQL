@@ -7,7 +7,8 @@ CREATE TABLE persons (
 
 INSERT INTO persons (fullname, age) VALUES ("Harry Potter", "25"); 
 INSERT INTO persons (fullname, age) VALUES ("Ronald Weasley", "25"); 
-INSERT INTO persons (fullname, age) VALUES ("Giny Weasley", "14");
+INSERT INTO persons (fullname, age) VALUES ("Giny Weasley", "24");
+INSERT INTO persons (fullname, age) VALUES ("Hermione Weasley", "25");
 
 CREATE TABLE relations (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -18,6 +19,9 @@ CREATE TABLE relations (
 INSERT INTO relations (person1_id, person2_id, relation) VALUES (1, 2, "friends");
 INSERT INTO relations (person1_id, person2_id, relation) VALUES (1, 3, "married");
 INSERT INTO relations (person1_id, person2_id, relation) VALUES (2, 3, "siblings");
+INSERT INTO relations (person1_id, person2_id, relation) VALUES (1, 4, "friends");
+INSERT INTO relations (person1_id, person2_id, relation) VALUES (2, 4, "married");
+INSERT INTO relations (person1_id, person2_id, relation) VALUES (3, 4, "sister-in-law");
 
 CREATE TABLE ocupations (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -27,6 +31,8 @@ CREATE TABLE ocupations (
 INSERT INTO ocupations (person_id, ocupation) VALUES (1, "Wizard");
 INSERT INTO ocupations (person_id, ocupation) VALUES (2, "I don't even know");
 INSERT INTO ocupations (person_id, ocupation) VALUES (3, "Wizard");
+INSERT INTO ocupations (person_id, ocupation) VALUES (4, "Professor");
+INSERT INTO ocupations (person_id, ocupation) VALUES (4, "Head master"); 
 
 /*
 Display the person's name and their ocupation
@@ -44,4 +50,4 @@ FROM persons
 JOIN relations
 ON persons.id = relations.person1_id
 JOIN persons as persons2
-ON persons2.id = relations.person2_id
+ON persons2.id = relations.person2_id;
