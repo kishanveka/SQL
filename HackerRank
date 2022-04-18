@@ -1,0 +1,5 @@
+# This file contains SQL I submitted for solutions to HackerRank problems.
+
+SELECT * FROM CITY
+WHERE population > 100000 and COUNTRYCODE = "USA"
+
