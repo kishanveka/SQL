@@ -1,0 +1,147 @@
+This is all of the SQL code which I used to figure out who the murderer was in SQL Murder Mystery (https://mystery.knightlab.com/#experienced).
+
+
+/*
+Use provided info to find the Crime Scene Report:
+
+SELECT * 
+FROM crime_scene_report
+where city like "SQL City" and type like "murder" and date like 20180115;
+
+Crime Scene Report:
+
+Security footage shows that there were 2 witnesses. 
+The first witness lives at the last house on "Northwestern Dr". 
+The second witness, named Annabel, lives somewhere on "Franklin Ave".
+*/
+
+/*
+Find two people meeting criteria from Crime Scene Report in Person table:
+
+SELECT * 
+FROM person
+where address_street_name like "%Northwestern Dr%" 
+order by address_number desc;
+
+id		name			license_id	address_number	address_street_name	ssn
+14887	Morty Schapiro	118009		4919			Northwestern Dr	111564949
+
+
+SELECT * 
+FROM person
+where address_street_name like "%Franklin Ave%"
+and name like "%Annabel%"
+
+id		name			license_id	address_number	address_street_name	ssn
+16371	Annabel Miller	490173		103				Franklin Ave		318771143
+
+*/
+
+/*
+Find the two interviews given by witnesses:
+
+SELECT transcript 
+FROM interview
+JOIN person
+ON person.id = interview.person_id
+where person.id = 14887
+or person.id = 16371
+
+transcript
+Morty Schapiro:
+I heard a gunshot and then saw a man run out. He had a "Get Fit Now Gym" bag. 
+The membership number on the bag started with "48Z". 
+Only gold members have those bags. 
+The man got into a car with a plate that included "H42W".
+
+Annabel Miller:
+I saw the murder happen, and I recognized the killer from my gym when I was 
+working out last week on January the 9th.
+*/
+
+/*
+Use witness statement info to find the gym members matching the criteria:
+SELECT *
+FROM get_fit_now_member
+where id like "48z%" and membership_status = "gold" 
+
+id		person_id	name			membership_start_date	membership_status
+48Z7A	28819		Joe Germuska	20160305				gold
+48Z55	67318		Jeremy Bowers	20160101				gold
+*/
+
+/*
+Check if either of the above members had checked in on January 9th, 2018
+*/
+
+/*
+SELECT *
+FROM get_fit_now_check_in
+where membership_id like "48Z7A" and check_in_date = 20180109
+or membership_id like "48Z55" and check_in_date = 20180109
+
+membership_id	check_in_date	check_in_time	check_out_time
+48Z7A			20180109		1600			1730
+48Z55			20180109		1530			1700
+
+*/
+
+/*Check if either of the two members have licence plate matching witness statement:
+
+Select *
+FROM person
+JOIN drivers_license
+ON person.license_id = drivers_license.id
+WHERE plate_number like "%H42W%" and (person.id = 28819 or person.id = 67318)
+
+id		name			license_id	address_number	address_street_name		ssn			id		age	height	eye_color	hair_color	gender	plate_number	car_make	car_model
+67318	Jeremy Bowers	423327		530				Washington Pl, Apt 3A	871539279	423327	30	70		brown		brown		male	0H42W2			Chevrolet	Spark LS
+*/
+
+/*
+Yay I found the murderer!
+
+Congrats, you found the murderer! But wait, there's more... 
+If you think you're up for a challenge, try querying the interview transcript 
+of the murderer to find the real villain behind this crime. 
+If you feel especially confident in your SQL skills, 
+try to complete this final step with no more than 2 queries. 
+Use this same INSERT statement with your new suspect to check your answer.
+*/
+
+/*
+SELECT transcript 
+FROM interview
+JOIN person
+ON person.id = interview.person_id
+where person.id = 67318
+
+transcript
+I was hired by a woman with a lot of money. 
+I don't know her name but I know she's around 5'5" (65") or 5'7" (67"). 
+She has red hair and she drives a Tesla Model S. 
+I know that she attended the SQL Symphony Concert 3 times in December 2017.
+*/
+
+
+/*
+SELECT * FROM drivers_license as license
+JOIN person
+ON person.license_id = license.id
+JOIN facebook_event_checkin as fb
+ON person.id = fb.person_id
+Where license.hair_color = "red" 
+and license.car_make = "Tesla" 
+and license.car_model = "Model S"
+and license.gender = "female" 
+and (license.height >= 65 and license.height <= 67)
+
+name
+Miranda Priestly
+*/
+
+/*
+Congrats, you found the brains behind the murder! 
+Everyone in SQL City hails you as the greatest SQL detective of all time. 
+Time to break out the champagne!
+*/
